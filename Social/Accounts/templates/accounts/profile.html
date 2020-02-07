@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Profile</title>
+<style>
+    #ab{
+        background-color: royalblue
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<body id="ab">
+    
+<div class="container">
+    <br>
+    <div class="jumbotron">
+    <h1>Profile</h1>
+    <img src="{{ user.userprofile.image.url }}" width = '240'>
+    <br><br>
+    <div class="container">
+        <p>Username : {{ user }}</p>
+        <p>First Name : {{ user.first_name }}</p>
+        <p>Last Name : {{ user.last_name }}</p>
+        <p>Email : {{ user.email }}</p>
+        <p>Description:{{ user.userprofile.description }}</p>
+        <p>Phone: {{ user.userprofile.phone }}</p>
+        <p>City: {{ user.userprofile.city }}</p>
+        {% if user.userprofile.image %}
+        <p>Website: {{ user.userprofile.website }}</p>
+        {% endif %}        
+    </div>
+</div>
+</div>
+</body>
+{% endblock %}
