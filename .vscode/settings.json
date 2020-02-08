@@ -1,0 +1,6 @@
+{
+    "python.pythonPath": "S:\\WORK\\DJANGO\\SOCIAL_NETWORK\\Social-Network\\Social_Main\\venv\\Scripts",
+    "python.autoComplete.extraPaths": [
+        "S:\\WORK\\DJANGO\\SOCIAL_NETWORK\\Social-Network\\Social_Main\\venv\\Lib\\site-packages"
+    ],
+}
