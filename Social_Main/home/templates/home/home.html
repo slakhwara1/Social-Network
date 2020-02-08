@@ -3,66 +3,110 @@
 {% block head %}
 <title>Home</title>
 <style>
-    #wrap{
+    #wrap {
         background-color: lavender
     }
-    #okay{
+
+    #okay {
         background-color: aliceblue
     }
-    #okay_1{
+
+    #okay_1 {
         background-color: honeydew
     }
-    #ab{
-            background-color: royalblue
-        }
+
+    #ab {
+        background-color: royalblue
+    }
 </style>
 {% endblock %}
 
 {% block body %}
+
 <body id="ab">
-    
-<div class="container" >
-    <br>
-<div class="row" >
-    <div class="col-md-8" id="okay">
-            <h2 class=>Home ({{ user.get_full_name }})</h2>
-            <form method="POST">
-                {% csrf_token %}
-                {{ form.post }}
-                <br>
-                <button type="submit" class="btn btn-outline-info">Submit</button>
-            </form>
-            <h2>{{ text }}</h2>
-            {% for post in posts %}
-            <div id="wrap">
-            <h1 class="">{{ post.post }}</h1>
-            <p>Posted by {{ post.user.get_full_name }} on {{ post.created }}</p>
-        </div>
-            {% endfor %}        
-    </div>
-    <div class="col-md-4" id="okay_1">
-            <h2>Other People</h2>
-            {% for user in users %}
-            {% if not user in friends%}
-            <a href="{% url 'accounts:view_profile_with_pk' pk=user.pk %}">
+
+    <div class="container">
+        <br>
+        <div class="row">
+            <div class="col-md-8" id="okay">
+                <h2 style="padding: 5px;">Home <span class="badge badge-info"> {{ user.get_full_name }}</span></h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.post }}
+                    <br>
+                    <button type="submit" class="btn btn-outline-info">Submit</button>
+                </form>
+                <h2>{{ text }}</h2>
+                {% for post in posts %}
+                <div id="wrap">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post.post }}</h5>
+                            <p class="card-text">Posted by {{ post.user.get_full_name }} on {{ post.created }}</p>
+                            <a href="#" class="btn btn-primary">Like</a>
+                            <a href="#" class="btn btn-success">Comment</a>
+                            <a href="#" class="btn btn-secondary">Share</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-4" id="okay_1">
+                <h2>Other People</h2>
+                {% for user in users %}
+                {% if not user in friends%}
+
+                <div class="card flex-row flex-wrap">
+                    <div class="card-header border-0">
+                        <img class="card-img-top"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS72bMX-sucG9MRPc5EBVDO0Wh4LtJNtprbRrU-wOxGZOgNOFsi"
+                            alt={{ user.get_full_name }} style="width: 70px;height: 70px;">
+                    </div>
+                    <div class="card-block px-2">
+                        <a href="{% url 'accounts:view_profile_with_pk' pk=user.pk %}">
+                            <h5 class="card-title">{{ user.get_full_name }}</h5>
+                        </a>
+                        <a href="{% url 'home:change_friends' operation='add' pk=user.pk %}">
+                            <button type="button" class="btn btn-outline-success">Add Friend</button>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- <a href="{% url 'accounts:view_profile_with_pk' pk=user.pk %}">
                     <h3>{{ user.get_full_name }}</h3>
             </a>
             <a href="{% url 'home:change_friends' operation='add' pk=user.pk %}">
                     <button type="button" class="btn btn-outline-success">Add Friend</button>
-            </a>
-            {% endif %}        
-            {% endfor %}
-            <h2>Friends</h2>
-            {% for friend in friends %}
-            <a href="{% url 'accounts:view_profile_with_pk' pk=user.pk %}">
+            </a> -->
+                {% endif %}
+                {% endfor %}
+                <h2>Friends</h2>
+                {% for friend in friends %}
+                <div class="card flex-row flex-wrap">
+                    <div class="card-header border-0">
+                        <img class="card-img-top"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS72bMX-sucG9MRPc5EBVDO0Wh4LtJNtprbRrU-wOxGZOgNOFsi"
+                            alt={{ user.get_full_name }} style="width: 70px;height: 70px;">
+                    </div>
+                    <div class="card-block px-2">
+                        <a href="{% url 'accounts:view_profile_with_pk' pk=user.pk %}">
+                            <h5 class="card-title">{{ friend.get_full_name }}</h5>
+                        </a>
+                        <a href="{% url 'home:change_friends' operation='remove' pk=friend.pk %}">
+                            <button type="button" class="btn btn-outline-secondary">Remove Friend</button>
+                        </a>
+                    </div>
+                </div>
+                <!-- <a href="{% url 'accounts:view_profile_with_pk' pk=user.pk %}">
                     <h3>{{ friend.get_full_name }}</h3>
             </a>
             <a href="{% url 'home:change_friends' operation='remove' pk=friend.pk %}">
             <button type="button" class="btn btn-outline-secondary">Remove Friend</button>
-            </a>
-            {% endfor %}
+            </a> -->
+                {% endfor %}
+            </div>
         </div>
     </div>
-    </div>
-</body>    
+</body>
 {% endblock %}
