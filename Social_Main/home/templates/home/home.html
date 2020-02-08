@@ -4,7 +4,7 @@
 <title>Home</title>
 <style>
     #wrap {
-        background-color: lavender
+        background-color: aliceblue
     }
 
     #okay {
@@ -12,11 +12,15 @@
     }
 
     #okay_1 {
-        background-color: honeydew
+        background-color: aliceblue
     }
 
     #ab {
         background-color: royalblue
+    }
+    .container_format{
+        margin-bottom: 40px;
+        border-radius: 50%;
     }
 </style>
 {% endblock %}
@@ -25,10 +29,11 @@
 
 <body id="ab">
 
-    <div class="container">
+    <div  class="container container_format">
         <br>
         <div class="row">
-            <div class="col-md-8" id="okay">
+            <div style="padding-bottom: 20px;" class="col-md-8" id="okay">
+                <br>
                 <h2 style="padding: 5px;">Home <span class="badge badge-info"> {{ user.get_full_name }}</span></h2>
                 <form method="POST">
                     {% csrf_token %}
@@ -40,7 +45,7 @@
                 {% for post in posts %}
                 <div id="wrap">
 
-                    <div class="card">
+                    <div style="border-radius: 2%;" class="card">
                         <div class="card-body">
                             <h5 class="card-title">{{ post.post }}</h5>
                             <p class="card-text">Posted by {{ post.user.get_full_name }} on {{ post.created }}</p>
@@ -53,11 +58,12 @@
                 {% endfor %}
             </div>
             <div class="col-md-4" id="okay_1">
-                <h2>Other People</h2>
+                <br>
+                <h3>People you may know</h3>
                 {% for user in users %}
                 {% if not user in friends%}
 
-                <div class="card flex-row flex-wrap">
+                <div style="margin: 5px;" class="card flex-row flex-wrap">
                     <div class="card-header border-0">
                         <img class="card-img-top"
                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS72bMX-sucG9MRPc5EBVDO0Wh4LtJNtprbRrU-wOxGZOgNOFsi"
@@ -65,46 +71,34 @@
                     </div>
                     <div class="card-block px-2">
                         <a href="{% url 'accounts:view_profile_with_pk' pk=user.pk %}">
-                            <h5 class="card-title">{{ user.get_full_name }}</h5>
+                            <h5 style="padding: 5px;" class="card-title">{{ user.get_full_name }}</h5>
                         </a>
                         <a href="{% url 'home:change_friends' operation='add' pk=user.pk %}">
                             <button type="button" class="btn btn-outline-success">Add Friend</button>
                         </a>
                     </div>
                 </div>
-
-                <!-- <a href="{% url 'accounts:view_profile_with_pk' pk=user.pk %}">
-                    <h3>{{ user.get_full_name }}</h3>
-            </a>
-            <a href="{% url 'home:change_friends' operation='add' pk=user.pk %}">
-                    <button type="button" class="btn btn-outline-success">Add Friend</button>
-            </a> -->
                 {% endif %}
                 {% endfor %}
-                <h2>Friends</h2>
-                {% for friend in friends %}
-                <div class="card flex-row flex-wrap">
-                    <div class="card-header border-0">
-                        <img class="card-img-top"
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS72bMX-sucG9MRPc5EBVDO0Wh4LtJNtprbRrU-wOxGZOgNOFsi"
-                            alt={{ user.get_full_name }} style="width: 70px;height: 70px;">
+                <hr>
+                    <h3>Your Friends</h3>
+                    {% for friend in friends %}
+                    <div style="margin: 5px;" class="card flex-row flex-wrap">
+                        <div class="card-header border-0">
+                            <img class="card-img-top"
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS72bMX-sucG9MRPc5EBVDO0Wh4LtJNtprbRrU-wOxGZOgNOFsi"
+                                alt={{ user.get_full_name }} style="width: 70px;height: 70px;">
+                        </div>
+                        <div class="card-block px-2">
+                            <a href="{% url 'accounts:view_profile_with_pk' pk=user.pk %}">
+                                <h5 style="padding: 5px;" class="card-title">{{ friend.get_full_name }}</h5>
+                            </a>
+                            <a href="{% url 'home:change_friends' operation='remove' pk=friend.pk %}">
+                                <button type="button" class="btn btn-outline-danger">Remove Friend</button>
+                            </a>
+                        </div>
                     </div>
-                    <div class="card-block px-2">
-                        <a href="{% url 'accounts:view_profile_with_pk' pk=user.pk %}">
-                            <h5 class="card-title">{{ friend.get_full_name }}</h5>
-                        </a>
-                        <a href="{% url 'home:change_friends' operation='remove' pk=friend.pk %}">
-                            <button type="button" class="btn btn-outline-secondary">Remove Friend</button>
-                        </a>
-                    </div>
-                </div>
-                <!-- <a href="{% url 'accounts:view_profile_with_pk' pk=user.pk %}">
-                    <h3>{{ friend.get_full_name }}</h3>
-            </a>
-            <a href="{% url 'home:change_friends' operation='remove' pk=friend.pk %}">
-            <button type="button" class="btn btn-outline-secondary">Remove Friend</button>
-            </a> -->
-                {% endfor %}
+                    {% endfor %}
             </div>
         </div>
     </div>
